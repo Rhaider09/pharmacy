@@ -23,6 +23,7 @@ class SettingsController extends Controller
 
     public function updateProfile(Request $request)
     {
+        // dd($request)->images;
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|unique:users,id',
@@ -32,41 +33,27 @@ class SettingsController extends Controller
         $user = User::find(Auth::id());
 
         $image = $request->file('image');
-        $slug = str_slug($request->name);
 
-        if(isset($image))
-        {
-            //make unique name for image
-            $currentDate = Carbon::now()->toDateString();
-            $imageName  = $slug.'-'.$currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $extension = $image->getClientOriginalExtension();
+            $path = 'assets/backend/images/';
+            $imagename = time() . rand(1, 5) . '.' . $extension;
 
-            if(!Storage::disk('public')->exists('user'))
-            {
-                Storage::disk('public')->makeDirectory('user');
-            }
-
-            //delete old user image
-            if(Storage::disk('public')->exists('user/'.$user->image) && strcmp($user->image, "default.png") != 0)
-            {
-                Storage::disk('public')->delete('user/'.$user->image);
-            }
-
-            $userImage = Image::make($image)->resize(500,500)->stream();
-
-            Storage::disk('public')->put('user/'.$imageName, $userImage);
-
+            $image->move(public_path($path), $imagename);
+            $imagepath = $path . $imagename;
         } else {
-            $imageName = $user->image;
+            $imagepath = null;
         }
 
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->address = $request->address;
-        $user->image = $imageName;
-        
+        $user->image = $imagepath;
+
         $user->save();
-       
+
         Toastr::success('Profile Successfully Updated !' ,'Success');
 
         return redirect()->back();
@@ -113,7 +100,7 @@ class SettingsController extends Controller
         else
         {
             Toastr::error('Wrong Old Password.','Error');
-            
+
             return redirect()->back();
         }
     }

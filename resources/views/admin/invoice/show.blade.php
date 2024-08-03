@@ -16,19 +16,19 @@
     html, body {
         height: 100%;
       }
-      
+
       #wrap {
         min-height: 100%;
       }
-      
+
       #main {
         overflow:auto;
         padding-bottom: 150px; /* this needs to be bigger than footer height*/
       }
-      
+
       /*.footer {
         position: relative;
-        margin-top: -20px; // negative value of footer height 
+        margin-top: -20px; // negative value of footer height
         height: 50px;
         clear:both;
         width: 100%;
@@ -49,7 +49,7 @@
         float: left;
         margin: 20px 10px;
         border-top: 1px solid #000;
-        width: 200px; 
+        width: 200px;
         text-align: center;
       }
 </style>
@@ -64,10 +64,11 @@
                           <div class="row">
                             <div class="col-12">
                               <h4>
-                                <i class="fa fa-globe"></i> Global Surgical Mart
+                                <i class="fa fa-globe"></i> Haider Medical & General Store
                                 {{-- <small class="float-right">Date: {{ date("d/m/Y", strtotime('+6 hours')) }}</small> --}}
                                 <small class="float-right">Date: {{ date("d/m/Y") }}</small>
                               </h4>
+                              {{-- <img src="{{ assets('assets/backend/images/Green Medicine Logo.jpg')}}"> --}}
                             </div>
                             <!-- /.col -->
                           </div>
@@ -77,10 +78,10 @@
                               From
                               <address>
                                 <strong>Admin, Inc.</strong><br>
-                                Pressclub Foot Over Bridge,<br>
-                                Topkhana Road, Dhaka-1205<br>
-                                Phone: (+88) 8123212<br>
-                                Email: info@gsm.com
+                                St #147A H #20 Shai road <br>
+                                baghbanpura lahore<br>
+                                Phone: (+92) 3230436771 <br>
+                                Email: haidermedical13@gmail.com
                               </address>
                             </div>
                             <!-- /.col -->
@@ -90,7 +91,7 @@
                                 <strong>{{ $invoice->customer->name }}</strong><br>
                                 {{ $invoice->customer->organization }}<br>
                                 {{ $invoice->customer->address }}<br>
-                                Phone: {{ $invoice->customer->phone }}<br>                                
+                                Phone: {{ $invoice->customer->phone }}<br>
                               </address>
                             </div>
                             <!-- /.col -->
@@ -142,12 +143,14 @@
                             <!-- accepted payments column -->
                             <div class="col-6">
                               <p class="lead">Payment Method:</p>
-                              {{--  <img src="https://adminlte.io/themes/dev/AdminLTE/dist/img/credit/visa.png" alt="Visa">
-                              <img src="https://adminlte.io/themes/dev/AdminLTE/dist/img/credit/mastercard.png" alt="Mastercard">
-                              <img src="https://adminlte.io/themes/dev/AdminLTE/dist/img/credit/american-express.png" alt="American Express">
-                              <img src="https://adminlte.io/themes/dev/AdminLTE/dist/img/credit/paypal2.png" alt="Paypal">  --}}
+                               {{-- <img src="https://adminlte.io/themes/dev/AdminLTE/dist/img/credit/visa.png" alt="Visa"> --}}
+                              {{-- <img src="https://adminlte.io/themes/dev/AdminLTE/dist/img/credit/mastercard.png" alt="Mastercard"> --}}
+                              {{-- <img src="https://adminlte.io/themes/dev/AdminLTE/dist/img/credit/american-express.png" alt="American Express"> --}}
+                              {{-- <img src="https://adminlte.io/themes/dev/AdminLTE/dist/img/credit/paypal2.png" alt="Paypal"> --}}
                                 <b>{{ $invoice->payment_type }}</b><br><br><br>
-                                
+
+                                <b>{{ $invoice->description }}</b>
+
                             </div>
                             <!-- /.col -->
                             <div class="col-6">
@@ -181,6 +184,9 @@
                             <!-- /.col -->
                           </div>
                           <!-- /.row -->
+                          <div>
+                            {{-- <img src="{{ assets('assets/backend/images/Red and White Minimalist Christmas Circle Sticker.jpg')}}"> --}}
+                          </div>
 
                           <!-- this row will not appear when printing -->
                           <div class="row no-print">

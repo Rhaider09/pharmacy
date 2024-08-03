@@ -3,7 +3,7 @@
 @section('title', 'Profile')
 
 @push('css')
-
+    <!-- Add your custom CSS here -->
 @endpush
 
 @section('content')
@@ -14,8 +14,7 @@
                 <div class="profile-header">&nbsp;</div>
                 <div class="profile-body">
                     <div class="image-area">
-                        <img src="{{ Storage::disk('public')->url('user/'.$user->image) }}" 
-                            alt="Profile Image" height="200" width="200" />
+                        <img src="{{ asset($user->image) }}" alt="Profile Image" height="200" width="200" />
                     </div>
                     <div class="content-area">
                         <h3>{{ $user->name }}</h3>
@@ -33,6 +32,7 @@
                             <span>Address</span>
                             <span>{{ $user->address }}</span>
                         </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -51,8 +51,8 @@
                             <label for="name" class="col-sm-2 control-label">Name Surname</label>
                             <div class="col-sm-10">
                                 <div class="form-line {{ $errors->has('name') ? 'focused error' : '' }}">
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                                        id="name" name="name" value="{{ !empty(old('name')) ? old('name') : $user->name }}" 
+                                    <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                        id="name" name="name" value="{{ old('name', $user->name) }}"
                                         placeholder="Name Surname">
                                 </div>
                                 @error('name')
@@ -66,8 +66,8 @@
                             <label for="email" class="col-sm-2 control-label">Email</label>
                             <div class="col-sm-10">
                                 <div class="form-line {{ $errors->has('email') ? 'focused error' : '' }}">
-                                    <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                                        id="email" name="email" value="{{ !empty(old('email')) ? old('email') : $user->email }}" 
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                        id="email" name="email" value="{{ old('email', $user->email) }}"
                                         placeholder="Email Address">
                                 </div>
                                 @error('email')
@@ -81,8 +81,8 @@
                             <label for="phone" class="col-sm-2 control-label">Phone</label>
                             <div class="col-sm-10">
                                 <div class="form-line {{ $errors->has('phone') ? 'focused error' : '' }}">
-                                    <input type="phone" class="form-control @error('phone') is-invalid @enderror" 
-                                        id="phone" name="phone" value="{{ !empty(old('phone')) ? old('phone') : $user->phone }}" 
+                                    <input type="text" class="form-control @error('phone') is-invalid @enderror"
+                                        id="phone" name="phone" value="{{ old('phone', $user->phone) }}"
                                         placeholder="Phone Number">
                                 </div>
                                 @error('phone')
@@ -94,32 +94,21 @@
                         </div>
                         <div class="form-group">
                             <label for="address" class="col-sm-2 control-label">Address</label>
-
                             <div class="col-sm-10">
                                 <div class="form-line">
-                                    <textarea class="form-control" id="address" name="address" rows="2" 
-                                        placeholder="Address">{{ !empty(old('address')) ? old('address') : $user->address }}</textarea>
+                                    <textarea class="form-control" id="address" name="address" rows="2"
+                                        placeholder="Address">{{ old('address', $user->address) }}</textarea>
                                 </div>
                             </div>
-                        </div>  
+                        </div>
                         <div class="form-group">
                             <label for="image" class="col-sm-2 control-label">Image</label>
-
                             <div class="col-sm-10">
                                 <input type="file" id="image" class="form-control @error('image') is-invalid @enderror" name="image" onchange="loadFile(event)">
-                            
-                                 @if (isset($user->image))
-                    
-                                    <img id="preview" src="{{ Storage::disk('public')->url('user/'.$user->image) }}"
-                                    height="70px" width="70px" alt="User Image">
-                                
-                                @else
-                                
-                                    <img id="preview">                                
-                                    
-                                @endif
+                                <img id="preview" src="{{ isset($user->image) ? asset($user->image) : '' }}"
+                                     height="70px" width="70px" alt="User Image">
                             </div>
-                        </div>                        
+                        </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button type="submit" class="btn btn-danger">UPDATE</button>
@@ -134,20 +123,16 @@
 @endsection
 
 @push('js')
-<!-- Preview Image -->
+    <!-- Preview Image -->
     <script type="text/javascript">
-        
         var loadFile = function(event) {
             var preview = document.getElementById('preview');
             preview.src = URL.createObjectURL(event.target.files[0]);
             preview.onload = function() {
-                //preview.style.height = '380px';
                 preview.style.height = '70px';
                 preview.style.width = '70px';
-               
-            URL.revokeObjectURL(preview.src) // free memory
+                URL.revokeObjectURL(preview.src); // free memory
             }
         };
-          
     </script>
 @endpush

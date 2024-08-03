@@ -2,8 +2,9 @@
     <!-- User Info -->
     <div class="user-info">
         <div class="image">
-            {{--  <img src="{{ Storage::disk('public')->url('profile/'.Auth::user()->image) }}" width="48" height="48" alt="User" />  --}}
-            <img src="{{ Storage::disk('public')->url('user/'.Auth::user()->image) }}" width="48" height="48" alt="User" />
+             {{-- <img src="{{ Storage::disk('public')->url('profile/'.Auth::user()->image) }}" width="48" height="48" alt="User" />  --}}
+            {{-- <img src="{{ asset($user->image) }}" alt="Profile Image" height="50" width="50" /> --}}
+            {{-- <img src="{{  }}" width="48" height="48" alt="User" /> --}}
         </div>
         <div class="info-container">
             <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</div>
@@ -35,7 +36,7 @@
                         <form id="profile-logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
-                        
+
                     </li>
                 </ul>
             </div>
@@ -47,7 +48,7 @@
         <ul class="list">
 
             <li class="header">MAIN NAVIGATION</li>
-            
+
             @if (Request::is('admin*'))
                 <li class="{{ Request::is('admin/dashboard') ? 'active' : '' }}">
                     <a href="{{ route('admin.dashboard') }}">
@@ -183,40 +184,40 @@
                     <ul class="ml-menu">
                         <li class="{{ Request::is('admin/report/cash') ? 'active' : '' }}">
                             <a href="{{ route('admin.report.cash') }}">Daily Cash</a>
-                        </li> 
+                        </li>
                         <li class="{{ Request::is('admin/report/sold') ? 'active' : '' }}">
                             <a href="{{ route('admin.report.sold') }}">Sold Products</a>
                         </li>
                         <li class="{{ Request::is('admin/report/return') ? 'active' : '' }}">
                             <a href="{{ route('admin.report.return') }}">Returned Products</a>
-                        </li> 
+                        </li>
                         <li class="{{ Request::is('admin/report/purchase') ? 'active' : '' }}">
                             <a href="{{ route('admin.report.purchase') }}">Purchased Products</a>
-                        </li>  
+                        </li>
                         <li class="{{ Request::is('admin/report/sales') ? 'active' : '' }}">
                             <a href="{{ route('admin.report.sales') }}">Sales & Profit</a>
-                        </li> 
+                        </li>
                         <li class="{{ Request::is('admin/report/purchases') ? 'active' : '' }}">
                             <a href="{{ route('admin.report.purchases') }}">Purchase & Cost</a>
-                        </li>  
+                        </li>
                         <li class="{{ Request::is('admin/report/sales-details') ? 'active' : '' }}">
                             <a href="{{ route('admin.report.salesDetails') }}">Sales Details</a>
-                        </li> 
+                        </li>
                         <li class="{{ Request::is('admin/report/purchase-details') ? 'active' : '' }}">
                             <a href="{{ route('admin.report.purchaseDetails') }}">Purchase Details</a>
                         </li>
                         <li class="{{ Request::is('admin/report/proprietor') ? 'active' : '' }}">
                             <a href="{{ route('admin.report.proprietorExpenses') }}">Proprietor Expenses</a>
-                        </li> 
+                        </li>
                         <li class="{{ Request::is('admin/report/office') ? 'active' : '' }}">
                             <a href="{{ route('admin.report.officeExpenses') }}">Office Expenses</a>
-                        </li> 
+                        </li>
                         <li class="{{ Request::is('admin/report/bank') ? 'active' : '' }}">
                             <a href="{{ route('admin.report.bankTransactions') }}">Bank Transactions</a>
-                        </li> 
+                        </li>
                         <li class="{{ Request::is('admin/report/salary') ? 'active' : '' }}">
                             <a href="{{ route('admin.report.employeeSalary') }}">Employee Salary</a>
-                        </li>                                     
+                        </li>
                     </ul>
                 </li>
 
@@ -248,7 +249,7 @@
                     </form>
                 </li>
             @endif
-            
+
             @if (Request::is('user*'))
                 <li class="{{ Request::is('user/dashboard') ? 'active' : '' }}">
                     <a href="{{ route('user.dashboard') }}">
@@ -344,14 +345,14 @@
                     </form>
                 </li>
             @endif
-        
+
         </ul>
     </div>
     <!-- #Menu -->
     <!-- Footer -->
     <div class="legal">
         <div class="copyright">
-            &copy; {{ now()->year }}. All rights reserved. <a href="javascript:void(0);">Global Surgical</a>.
+            &copy; {{ now()->year }}. All rights reserved. <a href="javascript:void(0);">HM&GS</a>.
         </div>
         <div class="version">
             <b>Version: </b> 1.0.0

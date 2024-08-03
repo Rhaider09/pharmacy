@@ -25,8 +25,8 @@ class ProductController extends Controller
         $products = Product::latest()->get();
 
         $total_amount = DB::table('products')->select(DB::raw('sum(quantity * round(price, 2)) AS total_amount'))->first();
-   
-        return view('admin.product.index', compact('products', 'total_amount'));                 
+
+        return view('admin.product.index', compact('products', 'total_amount'));
     }
 
     /**
@@ -63,23 +63,16 @@ class ProductController extends Controller
         $image = $request->file('image');
         $slug = str_slug($request->name);
 
-        if(isset($image))
-        {
-            //make unique name for image
-            $currentDate = Carbon::now()->toDateString();
-            $imageName  = $slug.'-'.$currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $extension = $image->getClientOriginalExtension();
+            $path = 'assets/backend/images/';
+            $imagename = time() . rand(1, 5) . '.' . $extension;
 
-            if(!Storage::disk('public')->exists('product'))
-            {
-                Storage::disk('public')->makeDirectory('product');
-            }
-
-            $productImage = Image::make($image)->resize(500,333)->stream();
-
-            Storage::disk('public')->put('product/'.$imageName, $productImage);
-
+            $image->move(public_path($path), $imagename);
+            $imagepath = $path . $imagename;
         } else {
-            $imageName = "default.png";
+            $imagepath = null;
         }
 
         $product = new Product();
@@ -91,10 +84,10 @@ class ProductController extends Controller
         $product->quantity = $request->quantity;
         $product->low_quantity_alert = $request->low_quantity_alert;
         $product->price = $request->price;
-        $product->image = $imageName;
-        
+        $product->image = $imagepath;
+
         $product->save();
-       
+
         Toastr::success('Product Successfully Created !' ,'Success');
 
         return redirect()->route('admin.product.index');
@@ -151,29 +144,16 @@ class ProductController extends Controller
         $image = $request->file('image');
         $slug = str_slug($request->name);
 
-        if(isset($image))
-        {
-            //make unique name for image
-            $currentDate = Carbon::now()->toDateString();
-            $imageName  = $slug.'-'.$currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $extension = $image->getClientOriginalExtension();
+            $path = 'assets/backend/images/';
+            $imagename = time() . rand(1, 5) . '.' . $extension;
 
-            if(!Storage::disk('public')->exists('product'))
-            {
-                Storage::disk('public')->makeDirectory('product');
-            }
-
-            //delete old product image
-            if(Storage::disk('public')->exists('product/'.$product->image) && strcmp($product->image, "default.png") != 0)
-            {
-                Storage::disk('public')->delete('product/'.$product->image);
-            }
-
-            $productImage = Image::make($image)->resize(500,333)->stream();
-
-            Storage::disk('public')->put('product/'.$imageName, $productImage);
-
+            $image->move(public_path($path), $imagename);
+            $imagepath = $path . $imagename;
         } else {
-            $imageName = $product->image;
+            $imagepath = null;
         }
 
         $product->name = $request->name;
@@ -183,10 +163,10 @@ class ProductController extends Controller
         $product->quantity = $request->quantity;
         $product->low_quantity_alert = $request->low_quantity_alert;
         $product->price = $request->price;
-        $product->image = $imageName;
-        
+        $product->image = $imagepath;
+
         $product->save();
-       
+
         Toastr::success('Product Successfully Updated !' ,'Success');
 
         return redirect()->route('admin.product.index');
@@ -200,9 +180,9 @@ class ProductController extends Controller
         ]);
 
         $product = Product::findOrFail($id);
-        
+
         $oldItemsTotalPrice = $product->quantity * $product->price;
-        
+
         $additionalQuantity = $request->quantity;
         $newPrice = $request->price;
 
@@ -211,11 +191,11 @@ class ProductController extends Controller
         if(isset($newPrice)) {
             $product->price = ($oldItemsTotalPrice + $newItemsTotalPrice) / ($product->quantity + $additionalQuantity );
         }
-        
+
         if(isset($additionalQuantity)) {
             $product->quantity = $product->quantity + $additionalQuantity;
         }
-        
+
         $product->save();
 
         Toastr::success('Product Successfully Updated !' ,'Success');

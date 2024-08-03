@@ -13,7 +13,7 @@
 
 @section('content')
 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 pull-right" style="margin-bottom: 20px;">
-    <button class="btn bg-teal btn-lg btn-block waves-effect" type="button" style="height: 50px; font-size: 14px; cursor: default; pointer-events: none;">Total Amount 
+    <button class="btn bg-teal btn-lg btn-block waves-effect" type="button" style="height: 50px; font-size: 14px; cursor: default; pointer-events: none;">Total Amount
         <span class="badge" style="font-size: 18px;">{{ number_format($total_amount->total_amount, 2) }}</span>
     </button>
 </div>
@@ -24,7 +24,7 @@
             <span>Add New Product</span>
         </a>
     </div>
-   
+
     <!-- Exportable Table -->
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -32,7 +32,7 @@
                 <div class="header">
                     <h2>
                         ALL PRODUCTS
-                        <span class="badge bg-red">{{ $products->count() }}</span
+                        <span class="badge bg-red">{{ $products->count() }}</span>
                     </h2>
                 </div>
                 <div class="body">
@@ -66,17 +66,18 @@
                             </tfoot>
                             <tbody>
                                 @foreach ($products as $key=>$product)
-                                    <tr>                          
+                                    <tr>
                                         <td>{{ $key+1 }}</td>
-                                        <td>{{ $product->name }}</td>                   
+                                        <td>{{ $product->name }}</td>
                                         <td>{{ $product->category->name }}</td>
                                         <td>{{ $product->supplier->organization }}</td>
                                         <td><span class="badge {{ $product->quantity <= $product->low_quantity_alert ? 'bg-pink' : 'bg-green' }}">{{ $product->quantity }}</span></td>
                                         <td>{{ number_format(round($product->price, 2), 2) }}</td>
                                         <td>{{ number_format(round($product->price, 2) * $product->quantity, 2) }}</td>
                                         <td class="align-center">
-                                            <img src="{{ Storage::disk('public')->url('product/'.$product->image) }}" 
-                                                alt="{{ $product->name }}" height="37" width="44">
+                                            <img src="{{ asset($product->image) }}" alt="images" height="37" width="44" />
+                                            {{-- <img src="{{ asset($product->image) }}"
+                                                alt="{{ $product->name }}" height="37" width="44"> --}}
                                         </td>
                                         <td class="text-center" style="white-space:nowrap;">
                                             <a href="{{ route('admin.product.edit', $product->id) }}" class="btn btn-info waves-effect">
@@ -132,7 +133,7 @@
                 },
                 buttonsStyling: false
               })
-              
+
               swalWithBootstrapButtons.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -146,7 +147,7 @@
 
                   event.preventDefault();
                   document.getElementById('delete-form-' + id).submit();
-                    
+
                   swalWithBootstrapButtons.fire(
                     'Deleted!',
                     'Your data has been deleted.',
